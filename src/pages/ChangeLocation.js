@@ -98,7 +98,12 @@ function ChangeLocation() {
         if (apiList[i].name == "Kroger") {
           const fetchNearbyKroger = async () => {
             try {
-              const data = await searchKrogerLocations(`${location.lat},${location.lng}`);
+              const url = new URL("https://pricecompareserver.onrender.com")
+              url.pathname = "/kroger/locations";
+              url.searchParams.set("latlong", `${location.lat},${location.lng}`);
+
+              const data = await fetch(url.toString(), {
+              } ).then(response => response.json());
               setKrogerLocations(data);
             } catch (err) {
               console.error(err);

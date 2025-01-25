@@ -16,7 +16,19 @@ function AddItem() {
         switch (store.name) {
           case 'Kroger':
             try {
-              const catalog2 = await searchKroger("oranges", krogerLocations);
+              // const url = new URL("http://localhost:5000");
+              const url = new URL("https://pricecompareserver.onrender.com");
+              url.pathname = "/kroger/catalog";
+              url.searchParams.set("searchTerm", "oranges");
+              console.log(krogerLocations);
+              url.searchParams.set("krogerLocations", krogerLocations.join(','));
+
+              const response = await fetch(url.toString(), {
+              }).then(response => response.json());
+              console.log(response);
+              // const catalog = await searchKroger("oranges", krogerLocations);
+              // console.log(catalog);
+
             } catch (err) {
               console.log(err);
             }
