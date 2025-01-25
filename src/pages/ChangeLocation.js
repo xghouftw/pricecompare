@@ -101,10 +101,9 @@ function ChangeLocation() {
               const url = new URL("https://pricecompareserver.onrender.com")
               url.pathname = "/kroger/locations";
               url.searchParams.set("latlong", `${location.lat},${location.lng}`);
-
-              const data = await fetch(url.toString(), {
-              } ).then(response => response.json());
-              setKrogerLocations(data);
+              const data = await fetch(url.toString());
+              const locations = await data.json();
+              setKrogerLocations(locations);
             } catch (err) {
               console.error(err);
             }

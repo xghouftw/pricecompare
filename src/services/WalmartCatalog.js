@@ -66,10 +66,37 @@ export async function searchCatalog(searchTerm) {
         }
 
         const data = await response.json();
-        return data;
+
+        if (!data.items) return [];
+        const items = data.items.map((product) => {
+          const {
+            upc,
+            name,
+            brandName,
+            salePrice,
+            mediumImage,
+          } = product;
+
+          const id = 'W-' + upc;
+          const store = 'Walmart';
+          const description = name;
+          const brand = brandName;
+          const price = salePrice;
+          const imageUrl = mediumImage;
+          return {
+            id, 
+            store,
+            upc,
+            description,
+            brand,
+            price,
+            imageUrl
+          }
+        });
+
+        return items;
     } catch (error) {
         console.error("Error during Walmart search API call:", error);
         throw error;
     }
-
 }  
