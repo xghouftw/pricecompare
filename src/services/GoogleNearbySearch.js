@@ -1,13 +1,13 @@
 const mapsApiKey=process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
-export async function searchNearbyPlaces(lat, lng) {
+export async function searchNearbyPlaces(lat, lng, r = 5000) {
   const requestBody = {
     includedTypes: ["grocery_store"],
     maxResultCount: 20,
     locationRestriction: {
       circle: {
         center: { latitude: lat, longitude: lng },
-        radius: 5000
+        radius: r
       }
     }
   };
@@ -24,9 +24,10 @@ export async function searchNearbyPlaces(lat, lng) {
       body: JSON.stringify(requestBody)
     });
 
-
     if (!response.ok) {
       throw new Error(`Nearby search failed with status ${response.statusText}`);
+    } else {
+      console.log("Nearby search successful");
     }
 
     const data = await response.json();

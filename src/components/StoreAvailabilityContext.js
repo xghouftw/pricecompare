@@ -11,6 +11,7 @@ const StoreAvailabilityContextProvider = ({ children }) => {
         }))
     );
 
+    const [supportedStores, setSupportedStores] = useState([]);
     const [krogerLocations, setKrogerLocations] = useState([]);
 
     return (
@@ -19,7 +20,9 @@ const StoreAvailabilityContextProvider = ({ children }) => {
             apiList,
             setApiList,
             krogerLocations,
-            setKrogerLocations
+            setKrogerLocations,
+            supportedStores,
+            setSupportedStores
           }}
         >
           {children}

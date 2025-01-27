@@ -1,31 +1,44 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../components/CartContext';
+import '../App.css';
+import './SeeCart.css'; 
 
 function SeeCart() {
-  const { cart, removeFromCart, totalPrice} = useContext(CartContext);
-
-  const handleRemove = (itemId) => {
-    removeFromCart(itemId);
-  };
+  const { cart, removeFromCart, clearCart, totalPrice} = useContext(CartContext);
 
   return (
-    <div>
-      <h2>Your Cart</h2>
+    <div className = "page-container">
+      <h1>Your Cart</h1>
+      <div className="cart-header">
+        <button className="clear-button" onClick={clearCart}>
+          <strong>Clear All</strong>
+        </button>
+      </div>
       {cart.length === 0 ? (
         <p>No items in cart.</p>
       ) : (
-        <ul style={styles.list}>
+        <ul>
           {cart.map((item) => (
-            <li key={item.id} style={styles.listItem}>
-              <img 
-                src={item.imageUrl} 
-                alt={item.description} 
-                style={{ width: '50px', marginRight: '0.5rem' }}
-              />
-              <div>
-                <strong>{item.description}</strong> — {item.brand} — {item.price} at {item.store}
+            <li className="cart-item" key={item.id}>
+              <div className="item-left">
+                <img 
+                  className="item-image"
+                  src={item.imageUrl}
+                  alt={item.description}
+                />
+                <div className="item-info">
+                  <strong>{item.description}</strong>
+                  {item.brand}
+                </div>
               </div>
-              <button onClick={() => handleRemove(item.id)}>Remove</button>
+              <div className="item-right">
+                <div>
+                  ${item.price.toFixed(2)} at {item.store} (x{item.quantity})
+                </div>
+                <button className="remove-button" onClick={() => removeFromCart(item.id)}>
+                  Remove One
+                </button>
+              </div>
             </li>
           ))}
         </ul>
@@ -35,17 +48,5 @@ function SeeCart() {
     </div>
   );
 }
-
-const styles = {
-  list: {
-    listStyle: 'none',
-    padding: 0
-  },
-  listItem: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '1rem'
-  }
-};
 
 export default SeeCart;

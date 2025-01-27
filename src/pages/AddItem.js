@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import ItemCard from '../components/ItemCard';
 import { StoreAvailabilityContext } from '../components/StoreAvailabilityContext';
+import '../App.css';
+import './AddItem.css';
 
 function AddItem() {
-  const { apiList, krogerLocations } = useContext(StoreAvailabilityContext);
+  const { apiList, krogerLocations, supportedStores } = useContext(StoreAvailabilityContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null); // message to display on site
@@ -55,30 +57,34 @@ function AddItem() {
           break;
       }
     }
-
+    combinedResults.sort((a, b) => a.price - b.price); //sort in ascending order
     setProducts(combinedResults);
   };
 
   return (
-    <div>
-      <h2>Add Item</h2>
-      
-      <form onSubmit={handleSearch} style={{ marginBottom: '1rem' }}>
-        <input
-          type="text"
-          placeholder="Search for an item..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button type="submit">Search</button>
-      </form>
+    <div className="page-container">
+      <h1>Add Item</h1>
+
+      <div className = "search-container">
+        <form onSubmit={handleSearch} style={{ marginBottom: '1rem' }}>
+          <input
+            type="text"
+            placeholder="Search for an item..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button type="submit">Search</button>
+        </form>
+      </div>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      {products.length === 0 && searchTerm.trim() ? (
-        <p>No items found for "{searchTerm}".</p>
+      {supportedStores.length === 0 ? (
+        <p><strong>Warning:</strong> There are no supported stores available near you, so the search will not return anything.
+          Make there's a supported store within the radius of your set location.
+        </p>
       ) : (
-        <div style={styles.grid}>
+        <div className="item-grid">
           {products.map((product) => (
             <ItemCard key={product.id} product={product} />
           ))}
@@ -87,12 +93,5 @@ function AddItem() {
     </div>
   );
 }
-
-const styles = {
-  grid: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  }
-};
 
 export default AddItem;

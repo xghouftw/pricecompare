@@ -13,9 +13,12 @@ function ChangeLocation() {
   const [error, setError] = useState(null); // message to display on site
   const [unsupportedStores, setUnsupportedStores] = useState([]);
 
-  const { apiList, setApiList, setKrogerLocations } = useContext(StoreAvailabilityContext);
+  const [radius, setRadius] = useState(5); // default radius in km
 
-  const mapContainerStyle = { width: '800px', height: '400px'};
+  const { apiList, setApiList, setKrogerLocations, supportedStores, setSupportedStores } = useContext(StoreAvailabilityContext);
+
+  // maps properties
+  const mapContainerStyle = { width: '900px', height: '500px'};
   const defaultCenter = { lat: 0, lng: 0 };
   
   const handleMapClick = (e) => {
@@ -45,16 +48,17 @@ function ChangeLocation() {
     );
   };
 
-  // Detect location on loading page and kick server on
+  // Detect location on loading page
   useEffect(() => {
     handleDetectLocation();
   }, []); 
 
+  // nearby grocery stores with Google Places API
   useEffect(() => {
     if (location.lat && location.lng) {
       const fetchNearbyStores = async () => {
         try {
-          const nearbyStores = await searchNearbyPlaces(location.lat, location.lng);
+          const nearbyStores = await searchNearbyPlaces(location.lat, location.lng, radius*1000);
           setStores(nearbyStores);
         } catch (err) {
           setError("Error fetching nearby places");
@@ -64,26 +68,27 @@ function ChangeLocation() {
 
       fetchNearbyStores();
     }
-  }, [location]);
+  }, [location, radius]);
 
+  // update supported stores based on detected location
   useEffect(() => {
     let newApiList = [...apiList];
     const unsupported = [];
+    const supported = [];
 
     for (let j = 0; j < newApiList.length; j++) newApiList[j].enabled = false;
 
     if (stores.length > 0) {
       for (let i = 0; i < stores.length; i++) {
-        let supported = false;
+        let sup = false;
         for (let j = 0; j < newApiList.length; j++) {
           if (stores[i].toLowerCase().includes(newApiList[j].name.toLowerCase())) {
             newApiList[j].enabled = true;
-            supported = true;
+            sup = true;
           } 
         }
-        if (!supported) {
-          unsupported.push(stores[i]);
-        }
+        if (sup) supported.push(stores[i]);
+        else unsupported.push(stores[i]);
       }
     }
 
@@ -108,12 +113,12 @@ function ChangeLocation() {
     }   
     setApiList(newApiList);
     setUnsupportedStores(unsupported);
+    setSupportedStores(supported);
 
   }, [stores]);
 
   return (
     <div className="page-container">
-      
       <h1>Change Location</h1>
 
       <div className='change-location-button-container'>
@@ -121,6 +126,7 @@ function ChangeLocation() {
           Automatically detect my location
         </button>
       </div>
+      
       {location.lat && location.lng ? (
         <p>Detected your location at latitude: {location.lat.toFixed(6)}, longitude: {location.lng.toFixed(6)}</p>
       ) : (
@@ -128,6 +134,22 @@ function ChangeLocation() {
       )}
       <p>Or, manually click the location marker on the map.</p>
       {error && <p className='error'>Error: {error}</p>}
+
+      <div className="slider-container">
+        <label htmlFor="radius-slider">
+          Search Radius:
+        </label>
+        <span className="radius-value">{radius} km</span>
+        <input
+          id="radius-slider"
+          type="range"
+          min="1"
+          max="20"
+          step="1"
+          value={radius}
+          onChange={(e) => setRadius(parseInt(e.target.value, 10))}
+        />
+      </div>
 
       <div className = "map-container">
         <LoadScript googleMapsApiKey={mapsApiKey}>
@@ -149,12 +171,16 @@ function ChangeLocation() {
       </div>
 
       <h2>Supported Stores Nearby</h2>
-      <p>When searching for an item, we can automatically compare price tags across these major retailers!</p>
-      <ul>
-        {apiList.filter(api => api.enabled).map((api, index) => (
-          <li key={index}>{api.name}</li>
-        ))}
-      </ul>
+      {supportedStores.length > 0 ? (<>
+        <p>Found supported stores:</p>
+        <ul>
+          {supportedStores.map((store, index) => (
+            <li key={index}>{store}</li>
+          ))}
+        </ul>
+     </> ) : (
+        <p>No supported stores found nearby.</p>
+      )}
 
       <h2>Other Nearby Stores</h2>
       <p>You might want to manually check these stores for lower prices. These stores don't have an API or are not supported yet.</p>

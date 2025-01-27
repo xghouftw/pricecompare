@@ -6,7 +6,6 @@ import SeeCart from './pages/SeeCart';
 import AddItem from './pages/AddItem';
 
 import Navbar from './components/Navbar';
-import SUPPORTED_STORES from './components/SupportedStores';
 import {CartContextProvider} from './components/CartContext';
 import {StoreAvailabilityContextProvider} from './components/StoreAvailabilityContext';
 
