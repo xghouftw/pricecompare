@@ -94,7 +94,7 @@ function ChangeLocation() {
 
     if (location.lat && location.lng) {
       for (let i = 0; i < apiList.length; i++) {
-        if (apiList[i].name == "Kroger") {
+        if (apiList[i].name === "Kroger") {
           const fetchNearbyKroger = async () => {
             try {
               const url = new URL("https://pricecompareserver.onrender.com")

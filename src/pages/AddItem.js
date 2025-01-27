@@ -19,7 +19,7 @@ function AddItem() {
 
     let combinedResults = [];
 
-    console.log(apiList);
+    console.log("Checking these APIs:", apiList);
     for (const store of apiList) {
       if (!store.enabled) continue;
       switch (store.name) {
@@ -32,7 +32,6 @@ function AddItem() {
 
             const response = await fetch(url.toString());
             const data = await response.json();
-            console.log(data);
 
             combinedResults = [...combinedResults, ...data];
           } catch (err) {
