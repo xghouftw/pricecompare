@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useMemo } from 'react';
 
 const CartContext = createContext();
 
@@ -10,11 +10,18 @@ const CartContextProvider = ({ children }) => {
   };
 
   const removeFromCart = (itemId) => {
-    setCart((prev) => prev.filter(i => i.id !== itemId));
+    setCart((prev) => prev.filter(item => item.id !== itemId));
   };
 
+  const totalPrice = useMemo(() => {
+    return cart.reduce((acc, item) => {
+      const numericPrice = parseFloat(item.price);
+      return acc + numericPrice;
+    }, 0);
+  }, [cart]);
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, totalPrice }}>
       {children}
     </CartContext.Provider>
   );

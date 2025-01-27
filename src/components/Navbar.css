@@ -1,0 +1,50 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #77d1ee;
+}
+
+.left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 50px;
+    margin-right: 1rem;
+}
+
+.logo:hover {
+    transform: rotate(20deg) scale(1.1);
+}
+
+.title {
+    margin: 0;
+}
+
+.right {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+    margin: 0;
+}
+
+.right li a {
+    display: inline-block;      
+    padding: 0.6rem 1rem;
+    background-color: #fff;     /* Button background color */
+    color: #010974;             /* Text color */
+    text-decoration: none;      /* Remove underline */
+    border-radius: 4px;         /* Slightly rounded corners */
+    font-weight: 500;           /* Make text a bit bolder */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: 3px solid #fff;     /* Gives a clear boundary; adjust as needed */
+}
+
+/* Hover effect to invert colors for a nice contrast */
+.right li a:hover {
+    background-color: #77d1ee;
+    color: #fff;
+}

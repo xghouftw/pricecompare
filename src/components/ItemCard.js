@@ -1,35 +1,38 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { CartContext } from './CartContext'; // Adjust path accordingly
 
-function ItemCard({ item, onAddToCart }) {
-  const { id, name, imageurl, link, price, store, upc } = item;
+function ProductCard({ product }) {
+  const { addToCart } = useContext(CartContext);
+
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
 
   return (
     <div style={styles.card}>
-      <img src={image} alt={name} style={styles.image} />
-      <h4>{name}</h4>
-      <p>Store: {store}</p>
-      <p>Price: ${price}</p>
-      <a href={link} target="_blank" rel="noreferrer">
-        View on {store}
-      </a>
-      <button onClick={() => onAddToCart(item)}>
-        Add to Cart
-      </button>
+      <img src={product.imageUrl} alt={product.description} style={styles.image} />
+      <h4>{product.description}</h4>
+      <p>Brand: {product.brand}</p>
+      <p>Store: {product.store}</p>
+      <p>Price: {product.price}</p>
+      <button onClick={handleAddToCart}>Add to Cart</button>
     </div>
   );
 }
 
 const styles = {
   card: {
-    border: '1px solid #ddd',
-    margin: '10px',
-    padding: '10px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    padding: '1rem',
+    margin: '1rem',
     width: '200px',
+    textAlign: 'center'
   },
   image: {
-    width: '100%',
-    height: 'auto',
-  },
+    maxWidth: '100%',
+    height: 'auto'
+  }
 };
 
-export default ItemCard;
+export default ProductCard;

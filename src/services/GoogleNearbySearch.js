@@ -16,7 +16,6 @@ export async function searchNearbyPlaces(lat, lng) {
   try {
     const response = await fetch(url.toString(), {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json",
         "X-Goog-Api-Key": mapsApiKey,
