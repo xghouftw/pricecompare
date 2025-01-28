@@ -39,7 +39,7 @@ const CartContextProvider = ({ children }) => {
   const totalPrice = useMemo(() => {
     return cart.reduce((acc, item) => {
       const numericPrice = parseFloat(item.price);
-      return acc + numericPrice;
+      return acc + numericPrice * item.quantity;
     }, 0);
   }, [cart]);
 
