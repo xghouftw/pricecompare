@@ -4,7 +4,8 @@ import './Navbar.css';
 
 function Navbar() {
     return (
-        <div className="nav">
+        //blue background with 1 rem padding
+        <div style = {{backgroundColor: 'blue', padding: '1rem'}} className="navbar">
             <div className="left">
                 <img src="/supermonkey.webp" alt="Logo" className="logo" />
                 <h1 className="title">Supermonkey's Supermarket Comparison</h1>
