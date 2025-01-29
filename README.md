@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# Supermonkey's Supermarket Comparison
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project description
+Common items on a family’s weekly grocery list may be available at many stores and retailers, albeit at different price points. A shopper may wish to compare the prices of items on their list across several retailers before going out, such as cross-referencing online catalogs. However, the practice of tracking the prices of items across many websites can get rather disorganized, whereby details are easily forgotten or misplaced among many browser tabs. This application solves the pain point of organization by compiling product listings across several grocers and retailers for an easy display of item prices. 
 
-## Available Scripts
+This project relies on API calls routed through the in-house backend server (see https://github.com/xghouftw/pricecompareserver for details of provided endpoints).
 
-In the project directory, you can run:
+## Detailed workflow
+On launch, the website brings you to the Change Location page and automatically prompts a location detection mechanism.
 
-### `npm start`
+When the location has been set or changed, the site calls the Google Places API and searches for places tagged `grocery_stores`. The search radius can be changed with a slider. If a store has a supported API, we note it and enable searching through that API (The current supported APIs are Kroger and Walmart). Otherwise, we note to the customer that they might want to manually check these stores for lower prices.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Onto the Add Item page, if a location has been selected and the customer types a search term in the box, the site will search through the Kroger and Walmart catalog and retrieve relevant information (name, brand, store, price, and picture). Each item card has a button to click to add to cart. Clicking this multiple times will increment the quantity of the respective item in the cart.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The actions involving API calls to Kroger and Walmart are routed through the in-house server to avoid CORS policy issues.
 
-### `npm test`
+The See Cart page shows all the items  added in a list and their total price. The customer can remove an item one at a time or clear the entire cart.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Demo
+The application is deployed at https://supermonkey-supermarket.onrender.com//.
 
-### `npm run build`
+**Disclaimer:** The backend is live with Render's free hosting service. The server automatically spins down after a period of inactivity. As a result, the first request while the server is inactive will take 1-2 minutes to wait for the server to spin up. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Video: [![Watch](https://img.youtube.com/vi/5cOiaVHBS2Y/0.jpg)](https://youtu.be/5cOiaVHBS2Y)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Running the project locally
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The Google Places API key is required to run this project and will not be provided in any `.env` file for privacy reasons.
 
-### `npm run eject`
+Clone the repository:
+```sh
+git clone https://github.com/xghouftw/pricecompare
+cd compprice
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Install dependencies:
+```sh
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Create a `.env` file in the `compprice` directory with the following content:
+```sh
+REACT_APP_GOOGLE_MAPS_API_KEY=your-google-maps-api-key
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Start the frontend:
+```sh
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Learning journey
+Inspired by the power of Google's Places API and the information it could search for, I became interested in the problem of compiling price information across many retailers to simplify and organize the shopping experience. I aimed to create a tool allowing users to compare prices and find the best deal, and hopefully promoting transparency and competition among supermarkets to the broader community of consumers. I started knowing the basics of HTML/CSS and next to no knowledge of React and Express. 
 
-## Learn More
+As I designed the UI and explored possible APIs, I ran into several issues. Many retail chains large enough to maintain APIs would gatekeep access to their official partners or affiliates. As of now, Kroger and Walmart are the only two APIs I found open to the public, but this application could be easily scaled to include more. Another direction I could've taken this is to directly scrape websites for information.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Figuring out the parameters and return types of the APIs was the most fun and challenging part. Walmart's authentication process for their API was quite prickly in that they required developers to implement the generation and signature of keys themselves. 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The most difficult issue I faced was being blocked by both grocers by their CORS (cross-origin resource sharing) policies. In order to deploy for a smooth experience, I was forced to create a backend server as an intermediary between the website and APIs.
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Overall, this project taught me a great deal about making API requests in JavaScript, as well as building applications with React and Express!
