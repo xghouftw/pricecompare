@@ -10,7 +10,7 @@ On launch, the website brings you to the Change Location page and automatically 
 
 When the location has been set or changed, the site calls the Google Places API and searches for places tagged `grocery_stores`. The search radius can be changed with a slider. If a store has a supported API, we note it and enable searching through that API (The current supported APIs are Kroger and Walmart). Otherwise, we note to the customer that they might want to manually check these stores for lower prices.
 
-Onto the Add Item page, if a location has been selected and the customer types a search term in the box, the site will search through the Kroger and Walmart catalog and retrieve relevant information (name, brand, store, price, and picture). Each item card has a button to click to add to cart. Clicking this multiple times will increment the quantity of the respective item in the cart.
+Onto the Add Item page, if a location has been selected and the customer types a search term in the box, the site will search through the Kroger and Walmart catalog and retrieve relevant information (name, brand, store, price, and picture). The items are sorted in ascending order of price. Each item card has a button to click to add to cart. Clicking this multiple times will increment the quantity of the respective item in the cart.
 
 The actions involving API calls to Kroger and Walmart are routed through the in-house server to avoid CORS policy issues.
 
