@@ -53,7 +53,7 @@ Inspired by the power of Google's Places API and the information it could search
 
 As I designed the UI and explored possible APIs, I ran into several issues. Many retail chains large enough to maintain APIs would gatekeep access to their official partners or affiliates. As of now, Kroger and Walmart are the only two APIs I found open to the public, but this application could be easily scaled to include more. Another direction I could've taken this is to directly scrape websites for information.
 
-Figuring out the parameters and return types of the APIs was the most fun and challenging part. Walmart's authentication process for their API was quite prickly in that they required developers to implement the generation and signature of keys themselves. 
+Figuring out the parameters and return types of the APIs was the most fun part. Walmart's authentication process for their API was quite prickly in that they required developers to implement the generation and signature of keys themselves. 
 
 The most difficult issue I faced was being blocked by both grocers by their CORS (cross-origin resource sharing) policies. In order to deploy for a smooth experience, I was forced to create a backend server as an intermediary between the website and APIs.
 
